@@ -1,9 +1,9 @@
 import catchAsync from "../util/catchAsync";
 import AppError from "../util/appError";
-import { verify ,JwtPayload} from "jsonwebtoken";
+import { verify, JwtPayload } from "jsonwebtoken";
 import User from "../model/userModel";
 import UserHandler from "../util/userHandler";
-import { Request, Response, NextFunction,RequestHandler } from "express";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 export const protect = catchAsync(async (req, res, next) => {
   if (
     !req.headers.authorization ||
@@ -48,7 +48,7 @@ export const protect = catchAsync(async (req, res, next) => {
 
 export const accessManager = function (role: string) {
   return function (req: Request, res: Response, next: NextFunction) {
-    console.log(req.user)
+    console.log(req.user);
     if (!(req.user.role === role))
       return next(
         new AppError("You are not allowed to access this route", 400)
@@ -59,7 +59,10 @@ export const accessManager = function (role: string) {
 export const isVerified: RequestHandler = (req, res, next) => {
   if (!req.user.verified)
     return next(
-      new AppError("You Cant access this route unless Your account Be Verified", 401)
+      new AppError(
+        "You Cant access this route unless Your account Be Verified",
+        401
+      )
     );
   next();
 };

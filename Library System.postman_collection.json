@@ -1,0 +1,480 @@
+{
+	"info": {
+		"_postman_id": "c3de40f2-80f6-4c2d-9cc0-b90fd5cc0c93",
+		"name": "Library System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36216095",
+		"_collection_link": "https://www.postman.com/supply-explorer-59337991/workspace/youssef-elkondakly/collection/36216095-c3de40f2-80f6-4c2d-9cc0-b90fd5cc0c93?action=share&source=collection_link&creator=36216095"
+	},
+	"item": [
+		{
+			"name": "ARCHIVIST",
+			"item": [
+				{
+					"name": "getBookInventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/users/archivist/getBookInventory"
+					},
+					"response": []
+				},
+				{
+					"name": "getOneBookInventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/users/archivist/getBookInventory/1"
+					},
+					"response": []
+				},
+				{
+					"name": "addBook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 1,\r\n    \"releaseDate\": \"2004-05-01 23:03:00 +03\",\r\n    \"copyrightStatus\": \"Copyrighted. Read the copyright notice inside this book for details.\",\r\n    \"language\": \"english\",\r\n    \"credits\": \"Produced by Craig Morehouse\",\r\n    \"price\": 500,\r\n    \"state\": \"available\",\r\n    \"name\": \"Free as in Freedom: Richard Stallman's Crusade for Free Software\",\r\n    \"author\": \"Williams, Sam\",\r\n    \"isDigital\": false,\r\n    \"categoryId\": \"programming\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/users/archivist/addBook"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Manager",
+			"item": [
+				{
+					"name": "addBookINventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\":\"moon\",\r\n  \"author\": \"sherlockHolmes\",\r\n  \r\n  \"category\":\"sci-fi\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/manager/addBookInventory"
+					},
+					"response": []
+				},
+				{
+					"name": "verifyEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "{{base_url}}/manager/employees/5"
+					},
+					"response": []
+				},
+				{
+					"name": "employees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/manager/employees?page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"manager",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "500",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEmployee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/manager/employees/3"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fullName\": \"ibrahim mohamed ezz\",\r\n\"birthDate\":\"2008-09-01 00:20:00+00\",\r\n\"userName\":\"IbrahimEzz\",\r\n  \"phone\": \"+201099835712\",\r\n  \"email\": \"ibrahim@gmail.com\",\r\n  \"password\": \"12345678q\",\r\n  \"passwordConfirm\":\"12345678q\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "verifyAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{base_url}}/auth/verifyregistration/4ceba5ea45e0dafc56c2f759b014125d8b6816c1fdad8108eacee4821f948bb5"
+					},
+					"response": []
+				},
+				{
+					"name": "forgotPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"youssefjoe@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/forgotPassword"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mohamed@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "resetPassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/resetPassword/e47311e4d3f31af107a6e1314743a5df73eaa190b96060f35dcd22faa4db6a14"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patron",
+			"item": [
+				{
+					"name": "allBooks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/patron/books?page=1&limit=3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"patron",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "request A book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bookingType\":\"borrow\",\r\n    \"returnDate\":\"2024-07-28\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/users/patron/books/4"
+					},
+					"response": []
+				},
+				{
+					"name": "MyBookRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/users/patron/books/getMyBookRequest"
+					},
+					"response": []
+				},
+				{
+					"name": "updateMyBookRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"returnDate\":\"2024-08-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/users/patron/books/getMyBookRequest"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMyBookRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{base_url}}/users/patron/books/getMyBookRequest"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LIBRARIAN",
+			"item": [
+				{
+					"name": "allBooks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/LIBRARIAN/books?page=3&limit=3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"LIBRARIAN",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "3"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bookOrders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/users/librarian/bookOrders"
+					},
+					"response": []
+				},
+				{
+					"name": "seeOneOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/users/librarian/bookOrders/8"
+					},
+					"response": []
+				},
+				{
+					"name": "actionBookorder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\":\"accept\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/users/librarian/bookOrders/8"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

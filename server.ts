@@ -6,27 +6,23 @@ import InventoryBooks from "./model/inventoryBooksModel";
 import OrderedBooks from "./model/orderedBooksModel";
 import User from "./model/userModel";
 import { Sequelize } from "sequelize-typescript";
-// import { User } from "./model/usermodel";
-// import { Ads } from "./model/adsmodel";
-// import { RequestAd } from "./model/requestModel";
 
 config();
 
-// console.log(__dirname + "/model/adsmodel.js");
 const pgP = process.env.PG_PASSWORD || "";
 const postgres =
   typeof process.env.DB_POSTGRES === "string"
     ? process.env.DB_POSTGRES.replace("<PASSWORD>", pgP)
     : "";
 const port = process.env.PORT || 3000;
-const sequelize = new Sequelize(postgres,{
-  logging:false
+const sequelize = new Sequelize(postgres, {
+  logging: false,
 });
-sequelize.addModels([User,Books, Categories, OrderedBooks,InventoryBooks]);
+sequelize.addModels([User, Books, Categories, OrderedBooks, InventoryBooks]);
 sequelize
-  .sync(
+  .sync
   // {force:true}
-  )
+  ()
   .then(() => {
     console.log("PostGres DB connection successful\n");
     app.listen(port, () => {

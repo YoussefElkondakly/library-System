@@ -1,8 +1,5 @@
-import  express  from "express";
-import AppError from './appError'
-//error codes
-// "name": "ValidationError",
-// "name": "ValidationError",
+import express from "express";
+import AppError from "./appError";
 
 export const errHandler = (
   err: AppError,

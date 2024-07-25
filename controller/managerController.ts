@@ -14,9 +14,9 @@ export const addBookInventory = catchAsync(async (req, res, next) => {
     message: "Book Inventory Added Successfully",
   });
 });
-export const getAllBooks=getHandler(Books,{},{})
-export const getAuthorRequest='';
-export const AcceptAuthorRequest='';
+export const getAllBooks = getHandler(Books, {}, {});
+export const getAuthorRequest = "";
+export const AcceptAuthorRequest = "";
 
 export const getEmployees = getHandler(
   User,

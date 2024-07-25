@@ -55,9 +55,9 @@ export const actionBookOrder = catchAsync(async (req, res, next) => {
       id: req.params.orderId,
     },
     attributes: ["state"],
-   
   });
-if(state?.state)return next(new AppError('You are Already accepted the Order',400))
+  if (state?.state)
+    return next(new AppError("You are Already accepted the Order", 400));
   const order = await OrderedBooks.update(
     { state: true },
     {
@@ -68,12 +68,12 @@ if(state?.state)return next(new AppError('You are Already accepted the Order',40
     }
   );
   if (!order) return next(new AppError("No order with this Id", 400));
-  const filtered=order[1]
- const book = await Books.findAll({ where: { id: filtered[0].bookId } });
- if (!book) return next(new AppError("No book with this Id", 400));
- book[0].state = filtered[0].bookingType;
- book[0].returnDate =  filtered[0].returnDate;
-  book[0].quantity = book[0].quantity-1;
+  const filtered = order[1];
+  const book = await Books.findAll({ where: { id: filtered[0].bookId } });
+  if (!book) return next(new AppError("No book with this Id", 400));
+  book[0].state = filtered[0].bookingType;
+  book[0].returnDate = filtered[0].returnDate;
+  book[0].quantity = book[0].quantity - 1;
   await book[0].save();
 
   res.status(200).json({

@@ -9,7 +9,8 @@ import {
   DataType,
   HasMany,
   Unique,
-  Default,ForeignKey,
+  Default,
+  ForeignKey,
   BelongsTo,
 } from "sequelize-typescript";
 import User from "./userModel";
@@ -42,10 +43,9 @@ export default class OrderedBooks extends Model {
 
   @BeforeCreate
   static async checkIfTheUserOrderdAbook(obj: OrderedBooks) {
-    const book = await this.findAll({where:{userId:obj.userId}})
-    if(book[0]){
-      throw new Error("You have already ordered a book")
-      }
-      
+    const book = await this.findAll({ where: { userId: obj.userId } });
+    if (book[0]) {
+      throw new Error("You have already ordered a book");
+    }
   }
 }

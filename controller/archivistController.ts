@@ -64,11 +64,22 @@ export const addBook = catchAsync(async (req, res, next) => {
   res.status(201).json({ status: "success", data: book });
 });
 
-export const getAllBooks=getHandler(Books,{attributes:{exclude:['userId','categoryId']},include:[{model:User,
-    attributes:["fullName","phone","role"]
-},
-{model:Categories,attributes:["name"]}
-]},{})
+export const getAllBooks = getHandler(
+  Books,
+  {
+    order: [["createdAt", "ASC"]],
+
+    attributes: { exclude: ["userId", "categoryId"] },
+    include: [
+      {
+        model: User,
+        attributes: ["fullName", "phone", "role"],
+      },
+      { model: Categories, attributes: ["name"] },
+    ],
+  },
+  {}
+);
 
 /**
  include: [

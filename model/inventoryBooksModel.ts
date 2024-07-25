@@ -23,14 +23,14 @@ export default class InventoryBooks extends Model {
   author!: string;
   @Column
   isDigital!: boolean;
-  
+
   @Column({
-    type: DataType.STRING
+    type: DataType.STRING,
   })
   bookUrl!: string | null;
   @Column
-  category!:string
-  
+  category!: string;
+
   @ForeignKey(() => User)
   @Column
   userId!: number;

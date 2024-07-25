@@ -1,22 +1,20 @@
-import nodemailer from "nodemailer"
+import nodemailer from "nodemailer";
 
- const sendEmail = async (opt:MailOptions) => {
-  // console.log("You are In Function with the ", opt);
-
+const sendEmail = async (opt: MailOptions) => {
   const transport = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
-    port: 587, // or 465
+    port: 587,
     auth: {
       user: process.env.MAIL_USER,
 
       pass: process.env.MAIL_PASS,
     },
-    secure: false, // use TLS
+    secure: false,
     tls: {
-      rejectUnauthorized: false, // disable certificate verification
+      rejectUnauthorized: false,
     },
-    debug: true, // show debug output
-    logger: true, // log information in console
+    debug: true,
+    logger: true,
   });
 
   const mailOpts = {
@@ -29,4 +27,4 @@ import nodemailer from "nodemailer"
   await transport.sendMail(mailOpts);
 };
 
-export default sendEmail
+export default sendEmail;

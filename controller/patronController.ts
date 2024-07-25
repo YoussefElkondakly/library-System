@@ -20,14 +20,14 @@ export const getBook = catchAsync(async (req, res, next) => {
   });
 });
 export const bookRequest = catchAsync(async (req, res, next) => {
-  const bookQuantity = await Books.findByPk(req.params.bookId,{
-attributes:['quantity','returnDate','state']  
-} )
-if(bookQuantity?.quantity===0){
-  return res.status(400).json({
-    message: `Book is ${bookQuantity?.state}ed right now it will be available again in ${bookQuantity?.returnDate}`,
+  const bookQuantity = await Books.findByPk(req.params.bookId, {
+    attributes: ["quantity", "returnDate", "state"],
   });
-}
+  if (bookQuantity?.quantity === 0) {
+    return res.status(400).json({
+      message: `Book is ${bookQuantity?.state}ed right now it will be available again in ${bookQuantity?.returnDate}`,
+    });
+  }
   req.body.bookId = +req.params.bookId;
   const requestAbook = await req.user.createOrderedBooks(req.body);
   if (!requestAbook)
@@ -72,7 +72,7 @@ export const deleteMyBookRequest = catchAsync(async (req, res, next) => {
   });
   if (!myBookRequest)
     return next(new AppError("you Did not make any request", 400));
-await myBookRequest.destroy()
+  await myBookRequest.destroy();
   res.status(204).json({
     status: "success",
     data: myBookRequest,

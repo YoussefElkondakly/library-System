@@ -1,9 +1,6 @@
 import { FindOptions } from "sequelize";
 import catchAsync from "./catchAsync";
 
-
-
-
 export const getHandler = function (
   Model: any,
   options: FindOptions,
@@ -18,6 +15,7 @@ export const getHandler = function (
     options.offset = offset;
     options.limit = +limit;
     const model = await Model.findAll(options);
+    // console.log(model);
     calc.calculateHasNextPage(count);
     calc.calculateHasPreviousPage();
     const pageinfo = calc.makeResponse();

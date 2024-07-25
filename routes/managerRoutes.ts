@@ -12,11 +12,11 @@ import {
 } from "../controller/managerController";
 import { Router } from "express";
 
-const router=Router()
+const router = Router();
 router.use(protect, accessManager("MANAGER"), isVerified);
 router.post("/addBookInventory", addBookInventoryValidation, addBookInventory);
-router.get('/employees',getEmployees)
-router.get("/employees/:employeeId",getEmployee);
-router.post("/employees/:employeeId",verifyEmployee);
+router.get("/employees", getEmployees);
+router.get("/employees/:employeeId", getEmployee);
+router.post("/employees/:employeeId", verifyEmployee);
 
-export default router
+export default router;
