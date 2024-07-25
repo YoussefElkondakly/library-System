@@ -15,9 +15,18 @@ import {
 import User from "./userModel";
 import Books from "./booksModel";
 @Table
-export default class OrderdBooks extends Model {
+export default class OrderedBooks extends Model {
+  @AllowNull(false)
   @Column
   bookingType!: string;
+  @AllowNull(false)
+  @Column({
+    type: DataType.DATE,
+  })
+  returnDate!: Date;
+  @Default(false)
+  @Column
+  state!: boolean;
   @ForeignKey(() => User)
   @Column
   userId!: number;
@@ -30,4 +39,13 @@ export default class OrderdBooks extends Model {
 
   @BelongsTo(() => Books)
   book!: Books;
+
+  @BeforeCreate
+  static async checkIfTheUserOrderdAbook(obj: OrderedBooks) {
+    const book = await this.findAll({where:{userId:obj.userId}})
+    if(book[0]){
+      throw new Error("You have already ordered a book")
+      }
+      
+  }
 }

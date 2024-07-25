@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import Books from "./model/booksModel";
 import Categories from "./model/categoriesModel";
 import InventoryBooks from "./model/inventoryBooksModel";
-import OrderdBooks from "./model/orderdBooksModel";
+import OrderedBooks from "./model/orderedBooksModel";
 import User from "./model/userModel";
 import { Sequelize } from "sequelize-typescript";
 // import { User } from "./model/usermodel";
@@ -22,7 +22,7 @@ const port = process.env.PORT || 3000;
 const sequelize = new Sequelize(postgres,{
   logging:false
 });
-sequelize.addModels([User,Books, Categories, OrderdBooks,InventoryBooks]);
+sequelize.addModels([User,Books, Categories, OrderedBooks,InventoryBooks]);
 sequelize
   .sync(
   // {force:true}

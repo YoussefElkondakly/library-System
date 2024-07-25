@@ -4,12 +4,12 @@ import nodemailer from "nodemailer"
   // console.log("You are In Function with the ", opt);
 
   const transport = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
+    host: process.env.MAIL_HOST,
     port: 587, // or 465
     auth: {
-      user: "30c2967bf9dad8",
-      
-      pass: "8fcaad818bd8e2",
+      user: process.env.MAIL_USER,
+
+      pass: process.env.MAIL_PASS,
     },
     secure: false, // use TLS
     tls: {
@@ -20,15 +20,13 @@ import nodemailer from "nodemailer"
   });
 
   const mailOpts = {
-    from: "Youssef Developer <no-reply@example.com>",
+    from: process.env.MAIL_SENDER,
     to: opt.email,
     subject: opt.subject,
     text: opt.message,
   };
-  // console.log(mailOpts);
 
   await transport.sendMail(mailOpts);
 };
 
-// module.exports = sendEmail;
 export default sendEmail

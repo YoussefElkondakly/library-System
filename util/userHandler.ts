@@ -42,7 +42,10 @@ export default class UserHandler{
       }
     }
     async checkPassword(givenPass: string, documentPass: string) {
-      return await compare(givenPass, documentPass);
+      console.log(givenPass, documentPass);
+      const isMatch = await compare(givenPass, documentPass);
+      console.log(isMatch)
+      return isMatch;
     }
     
     async save(){

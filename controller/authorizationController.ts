@@ -20,7 +20,7 @@ export const protect = catchAsync(async (req, res, next) => {
   const user = await User.findByPk(id, {
     attributes: [
       "id",
-      "name",
+      "fullName",
       "phone",
       "role",
       "verified",
@@ -59,7 +59,7 @@ export const accessManager = function (role: string) {
 export const isVerified: RequestHandler = (req, res, next) => {
   if (!req.user.verified)
     return next(
-      new AppError("You Cant make any Ad unless Your account Be Verified", 401)
+      new AppError("You Cant access this route unless Your account Be Verified", 401)
     );
   next();
 };

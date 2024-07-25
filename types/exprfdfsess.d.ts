@@ -1,11 +1,10 @@
 import { Request } from "express";
-import { User } from "model/usermodel";
-
 declare global  {
   namespace Express {
   interface Request {
     user: User|null;
     category:string;
+    skipMiddleWare:boolean
   }
 }
 interface MailOptions{
@@ -15,4 +14,5 @@ interface MailOptions{
       message:string;
     
 }
+
 }

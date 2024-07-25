@@ -1,19 +1,27 @@
-import {Length,AllowNull,Column,BeforeUpdate,BeforeCreate,Table,Model,DataType,HasMany, Unique, Default} from 'sequelize-typescript'
+import {Length,AllowNull,Column,BeforeUpdate,BeforeCreate,Table,Model,DataType,HasMany, Unique, Default, HasOne} from 'sequelize-typescript'
 import { hash } from 'bcrypt';
 import Books from './booksModel';
-import OrderdBooks from './orderdBooksModel';
+import OrderedBooks from './orderedBooksModel';
 import InventoryBooks from './inventoryBooksModel';
 
  @Table
  export default class User extends Model {
+   @Unique
    @AllowNull(false)
    @Column
-   name!: string;
-   @Unique
+   userName!: string;
+   @AllowNull(false)
+   @Column({
+    type: DataType.DATE,
+   })
+   birthDate!:Date;
+   @AllowNull(false)
+   @Column
+   fullName!: string;
    @AllowNull(false)
    @Column
    phone!: string;
-   @Unique
+
    @AllowNull(false)
    @Column
    email!: string;
@@ -27,7 +35,7 @@ import InventoryBooks from './inventoryBooksModel';
    @AllowNull(false)
    @Column
    password!: string;
-@Default(false)
+   @Default(false)
    @Column
    verified!: boolean;
 
@@ -64,7 +72,6 @@ import InventoryBooks from './inventoryBooksModel';
    @HasMany(() => InventoryBooks)
    inventoryBooks!: InventoryBooks[];
 
-
-   @HasMany(() => OrderdBooks)
-   orderdBooks!: OrderdBooks[];
+   @HasOne(() => OrderedBooks)
+   orderedBooks!: OrderedBooks[];
  }

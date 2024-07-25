@@ -7,6 +7,7 @@ import AppError from "../util/appError";
 import { Op } from "sequelize";
 import sendEmail from "./../util/mailSender";
 import UserHandler from "../util/userHandler";
+
 const createHashedToken = function (urlToken: string) {
   return Crypto.createHash("sha256").update(urlToken).digest("hex");
 };
@@ -15,18 +16,21 @@ const createMailToken = async function (
   request: Request,
   type: string
 ) {
-    
   const verifycode = userHandler.createToken(type);
 
   await userHandler.save();
 
   const verifyURL = `${request.protocol}://${request.get(
     "host"
-  )}/auth/verifyaccount/${verifycode}`;
-  const message = `your Verification Link is: ${verifyURL}`;
+  )}/librarysystem/auth/${
+    type === "reset" ? "resetPassword" : "verifyregistration"
+  }/${verifycode}`;
+  const message = `your ${
+    type === "reset" ? "Password Reset" : "Account Verification"
+  } Link is: ${verifyURL}`;
   try {
     await sendEmail({
-      email: "toto2013elkondkly92@gmail.com",
+      email: userHandler.user.email,
       subject: `Verify Account`,
       message,
     });
@@ -44,7 +48,7 @@ const createMailToken = async function (
 };
 const sendJsonResponseToken = function (
   userId: number,
-  status: number, 
+  status: number,
   res: Response
 ) {
   const token = sign({ userId }, process.env.JWT_SECURE!, {
@@ -58,7 +62,7 @@ const sendJsonResponseToken = function (
 };
 
 export const signup = catchAsync(async (req, res, next) => {
-    console.log(req.body)
+  /*Here I can see the email and make some restrictions on it if it alraeady used many times*/
   if (!req.body.passwordConfirm) {
     return next(new AppError("You Need To Confirm Password", 403));
   } else if (req.body.passwordConfirm !== req.body.password) {
@@ -73,31 +77,26 @@ export const signup = catchAsync(async (req, res, next) => {
   const userHandler = new UserHandler();
   userHandler.user = newUser;
   //TODOFIXME uncomment
-
-//   await createMailToken(userHandler, req, "verify");
+  if (req.body.role === "PATRON")
+    await createMailToken(userHandler, req, "verify");
 
   sendJsonResponseToken(newUser.id, 201, res);
 });
 export const login = catchAsync(async (req, res, next) => {
   if (!req.body.password)
     return next(new AppError("Please Provide the password filed", 404));
-  const user = await User.findAll({
-    where: {
-      email: req.body.email,
-    },
-  });
-  if (!user[0]) return next(new AppError("Incorrect Email Or Password", 404));
   const userHandler = new UserHandler();
-
+  console.log(req.user[0].password);
   const checkPassword = await userHandler.checkPassword(
     req.body.password,
-    user[0].password
+    req.user[0].password
   );
   if (!checkPassword)
-    return next(new AppError("Incorrect Email Or Password2", 404));
-  sendJsonResponseToken(user[0].id, 201, res);
+    return next(new AppError("Incorrect Email Or Password", 404));
+  sendJsonResponseToken(req.user[0].id, 201, res);
 });
-export const verifyAccount = catchAsync(async (req, res, next) => {
+
+export const verifyRegistration = catchAsync(async (req, res, next) => {
   const receivedToken = req.params.verificationcode;
   const userToken = createHashedToken(receivedToken);
   const user = await User.findAll({
@@ -105,7 +104,6 @@ export const verifyAccount = catchAsync(async (req, res, next) => {
       verifyUserToken: userToken,
     },
   });
-  console.log(user);
   if (!user[0]) return next(new AppError("User not found ", 400));
   if (user[0].verified) return next(new AppError("User already verified", 400));
   user[0].verified = true;
@@ -118,7 +116,8 @@ export const verifyAccount = catchAsync(async (req, res, next) => {
   });
 });
 export const forgotPassword = catchAsync(async (req, res, next) => {
-    if(!req.body.email)return next(new AppError("please Provide your Email Address",400))
+  if (!req.body.email)
+    return next(new AppError("please Provide your Email Address", 400));
   const user = await User.findAll({ where: { email: req.body.email } });
   if (!user[0]) return next(new AppError("User not found", 404));
   const userHandler = new UserHandler();
@@ -139,12 +138,14 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   }
   const receivedToken = req.params.code;
   const userToken = createHashedToken(receivedToken);
+  console.log(userToken);
   const user = await User.findAll({
     where: {
       passwordResetToken: userToken,
       passwordResetExpires: { [Op.gt]: Date.now() },
     },
   });
+
   // console.log(user[0])
   if (!user[0].passwordResetExpires)
     return next(new AppError("Prop line 194", 404));
