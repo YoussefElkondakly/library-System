@@ -1,7 +1,7 @@
 import { FindOptions } from "sequelize";
 import catchAsync from "./catchAsync";
 
-export const getHandler = function (
+export const findAllWithPagination = function (
   Model: any,
   options: FindOptions,
   countOption: FindOptions

@@ -1,11 +1,11 @@
-import { getHandler } from "../util/getHandler";
+import { findAllWithPagination } from "../util/findAllWithPagination";
 import catchAsync from "../util/catchAsync";
 import OrderedBooks from "../model/orderedBooksModel";
 import Books from "../model/booksModel";
 import User from "../model/userModel";
 import AppError from "../util/appError";
 
-export const bookOrders = getHandler(
+export const bookOrders = findAllWithPagination(
   OrderedBooks,
   {
     attributes: { exclude: ["userId", "bookId"] },

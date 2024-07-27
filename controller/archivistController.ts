@@ -1,4 +1,4 @@
-import { getHandler } from "../util/getHandler";
+import { findAllWithPagination } from "../util/findAllWithPagination";
 
 import InventoryBooks from "../model/inventoryBooksModel";
 import catchAsync from "../util/catchAsync";
@@ -7,7 +7,7 @@ import Categories from "../model/categoriesModel";
 import Books from "../model/booksModel";
 import User from "../model/userModel";
 
-export const getBookInventory = getHandler(
+export const getBookInventory = findAllWithPagination(
   InventoryBooks,
   {
     attributes: { exclude: ["userId"] },
@@ -64,7 +64,7 @@ export const addBook = catchAsync(async (req, res, next) => {
   res.status(201).json({ status: "success", data: book });
 });
 
-export const getAllBooks = getHandler(
+export const getAllBooks = findAllWithPagination(
   Books,
   {
     order: [["createdAt", "ASC"]],

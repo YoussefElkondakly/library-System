@@ -2,7 +2,7 @@ import { Op } from "sequelize";
 import User from "../model/userModel";
 import catchAsync from "../util/catchAsync";
 import AppError from "./../util/appError";
-import { getHandler } from "../util/getHandler";
+import { findAllWithPagination } from "../util/findAllWithPagination";
 import Books from "../model/booksModel";
 // ===>createInventoryBook
 export const addBookInventory = catchAsync(async (req, res, next) => {
@@ -14,11 +14,11 @@ export const addBookInventory = catchAsync(async (req, res, next) => {
     message: "Book Inventory Added Successfully",
   });
 });
-export const getAllBooks = getHandler(Books, {}, {});
+export const getAllBooks = findAllWithPagination(Books, {}, {});
 export const getAuthorRequest = "";
 export const AcceptAuthorRequest = "";
 
-export const getEmployees = getHandler(
+export const getEmployees = findAllWithPagination(
   User,
   {
     where: {
