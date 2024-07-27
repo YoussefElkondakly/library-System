@@ -29,7 +29,7 @@ export const bookRequest = catchAsync(async (req, res, next) => {
     });
   }
   req.body.bookId = +req.params.bookId;
-  const requestAbook = await req.user.createOrderedBooks(req.body);
+  const requestAbook = await req.user.createOrderedBook(req.body);
   if (!requestAbook)
     return next(new AppError("You cant add More than one Book request", 400));
   res.status(201).json({

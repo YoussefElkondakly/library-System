@@ -38,12 +38,6 @@ export default class UserHandler {
       return verifyToken;
     }
   }
-  async checkPassword(givenPass: string, documentPass: string) {
-    console.log(givenPass, documentPass);
-    const isMatch = await compare(givenPass, documentPass);
-    console.log(isMatch);
-    return isMatch;
-  }
 
   async save() {
     await this.user.save();

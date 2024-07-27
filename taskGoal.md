@@ -24,3 +24,4 @@ I will make one Column for birthDate and Edit the name column to be full name
 so whn the dublication happened we will ask him to add the second two entities of his name 
 and to input his birthDate then confirm at this stage if there is a dublicate we will show the usernames only 
 so when he choses one he finally success logged in 
+the user can make more than one request 

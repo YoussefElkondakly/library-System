@@ -80,3 +80,29 @@ export const fetchUserWithProvidedUserName = catchAsync(
     next();
   }
 );
+
+export const checkEmailForRegister = catchAsync(async (req, res, next) => {
+  if (!req.body.password)
+    return next(new AppError("Please Provide the password filed", 404));
+  const user = await User.findAll({
+    where: {
+      email: req.body.email,
+    },
+  });
+  if (!user) return next();
+
+  if (user.length === 1 && user[0].verified === false) {
+    //If I used findBy and update or update directly the user will not have the correct created at property
+
+    const del = await User.destroy({
+      where: { email: user[0].email },
+    });
+    return next();
+  }
+  if (user.length === 1 && user[0].verified === true) {
+    
+    return next(new AppError('this email is already assigned with a verified account',400));
+  }
+
+  next();
+});

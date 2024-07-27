@@ -1,3 +1,4 @@
+import { hash } from 'bcrypt';
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 import User from "../model/userModel";
@@ -7,6 +8,7 @@ import AppError from "../util/appError";
 import { Op } from "sequelize";
 import sendEmail from "./../util/mailSender";
 import UserHandler from "../util/userHandler";
+import Password from "../util/passwordRepo";
 
 const createHashedToken = function (urlToken: string) {
   return Crypto.createHash("sha256").update(urlToken).digest("hex");
@@ -70,6 +72,9 @@ export const signup = catchAsync(async (req, res, next) => {
   }
 
   if (!req.body.phone.includes("+2")) req.body.phone = "+2" + req.body.phone;
+  const pass=new Password()
+  pass.set(req.body.password)
+  req.body.password = await pass.hashPassword();
   const newUser = await User.create(req.body);
 
   if (!newUser) return next(new AppError("problem", 404));
@@ -86,11 +91,8 @@ export const login = catchAsync(async (req, res, next) => {
   if (!req.body.password)
     return next(new AppError("Please Provide the password filed", 404));
   const userHandler = new UserHandler();
-  console.log(req.user[0].password);
-  const checkPassword = await userHandler.checkPassword(
-    req.body.password,
-    req.user[0].password
-  );
+const pass=new Password()
+  const checkPassword =await pass.comparePassword(req.body.password,req.user[0].password);
   if (!checkPassword)
     return next(new AppError("Incorrect Email Or Password", 404));
   sendJsonResponseToken(req.user[0].id, 201, res);

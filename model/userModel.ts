@@ -74,17 +74,17 @@ export default class User extends Model {
   })
   verifyUserToken!: string | null;
 
-  @BeforeUpdate
-  @BeforeCreate
-  static async hashingPassword(user: User) {
-    user.password = await hash(user.password, 12);
-  }
+  // @BeforeUpdate
+  // @BeforeCreate
+  // static async hashingPassword(user: User) {
+  //   user.password = await hash(user.password, 12);
+  // }
   @HasMany(() => Books)
   books!: Books[];
 
   @HasMany(() => InventoryBooks)
   inventoryBooks!: InventoryBooks[];
 
-  @HasOne(() => OrderedBooks)
+  @HasMany(() => OrderedBooks)
   orderedBooks!: OrderedBooks[];
 }

@@ -15,6 +15,7 @@ import {
 } from "sequelize-typescript";
 import User from "./userModel";
 import Books from "./booksModel";
+import { Op } from "sequelize";
 @Table
 export default class OrderedBooks extends Model {
   @AllowNull(false)
@@ -42,10 +43,12 @@ export default class OrderedBooks extends Model {
   book!: Books;
 
   @BeforeCreate
-  static async checkIfTheUserOrderdAbook(obj: OrderedBooks) {
-    const book = await this.findAll({ where: { userId: obj.userId } });
+  static async checkIfTheUserOrderThisBook(obj: OrderedBooks) {
+    console.log(obj.bookId)
+    const book = await this.findAll({ where: {userId: obj.userId ,bookId:obj.bookId} });
+
     if (book[0]) {
-      throw new Error("You have already ordered a book");
+      throw new Error("You have already ordered this book");
     }
   }
 }

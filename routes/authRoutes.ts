@@ -12,13 +12,14 @@ import {
   validateSignup,
 } from "../controller/validationController";
 import {
+  checkEmailForRegister,
   fetchEmail,
   fetchUserWithProvidedPersonalData,
   fetchUserWithProvidedUserName,
 } from "../controller/loginHandler";
 const router = Router();
 
-router.post("/signup", validateSignup, signup);
+router.post("/signup", validateSignup, checkEmailForRegister, signup);
 router.post(
   "/login",
   validatelogin,
